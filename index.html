@@ -287,14 +287,20 @@ async function loadTrendingAnime() {
                 anime.title.romaji;
 
             card.innerHTML =
-                "<div>" +
-                "<h3>" + title + "</h3>" +
-                "<p>⭐ " + (anime.averageScore || "N/A") +
-                " • " + (anime.episodes || "?") +
-                " episodes</p>" +
-                "</div>";
+    "<div>" +
+    "<h3>" + title + "</h3>" +
+    "<p>⭐ " + (anime.averageScore || "N/A") +
+    " • " + (anime.episodes || "?") +
+    " episodes</p>" +
+    "</div>";
 
-            cards.appendChild(card);
+card.style.cursor = "pointer";
+
+card.addEventListener("click", function() {
+    window.location.href = "anime.html?id=" + anime.id;
+});
+
+cards.appendChild(card);
         });
 
     } catch (error) {
