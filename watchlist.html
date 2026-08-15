@@ -1,1 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>My Watchlist — ANUMBRIX</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0b0b12;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background: #11111a;
+            border-bottom: 1px solid #242432;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .home {
+            color: #aaaabd;
+            text-decoration: none;
+        }
+
+        .home:hover {
+            color: white;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .card {
+            height: 280px;
+            border-radius: 12px;
+            background: #171722;
+            border: 1px solid #292938;
+            padding: 15px;
+            display: flex;
+            align-items: end;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+        }
+
+        .card-content {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            background: linear-gradient(
+                to top,
+                rgba(0,0,0,.9),
+                rgba(0,0,0,.1)
+            );
+        }
+
+        .card h3 {
+            font-size: 17px;
+        }
+
+        .card p {
+            color: #aaaabd;
+            margin-top: 5px;
+            font-size: 13px;
+        }
+
+        .remove {
+            margin-top: 10px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 7px;
+            background: #292938;
+            color: white;
+            cursor: pointer;
+        }
+
+        .remove:hover {
+            background: #3a3a4a;
+        }
+
+        .empty {
+            color: #aaaabd;
+            line-height: 1.6;
+        }
+
+        @media (min-width: 700px) {
+            .cards {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">ANUMBRIX</div>
+
+    <a href="index.html" class="home">
+        ← Home
+    </a>
+
+</header>
+
+
+<main>
+
+    <h1>❤️ My Watchlist</h1>
+
+    <div id="watchlistCards" class="cards"></div>
+
+</main>
+
+
+<script>
+
+function loadWatchlist() {
+
+    const container =
+        document.getElementById("watchlistCards");
+
+    const watchlist =
+        JSON.parse(
+            localStorage.getItem("anumbrix_watchlist") || "[]"
+        );
+
+    container.innerHTML = "";
+
+    if (watchlist.length === 0) {
+
+        container.innerHTML = `
+            <p class="empty">
+                Your watchlist is empty.<br><br>
+                Find an anime and add it to your watchlist.
+            </p>
+        `;
+
+        return;
+    }
+
+    watchlist.forEach(anime => {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "card";
+
+        card.style.backgroundImage =
+            "linear-gradient(to top, rgba(0,0,0,.9), rgba(0,0,0,.1)), url('" +
+            anime.image +
+            "')";
+
+        card.innerHTML = `
+
+            <div class="card-content">
+
+                <h3>
+                    ${anime.title}
+                </h3>
+
+                <p>
+                    ⭐ ${anime.score || "N/A"}
+                </p>
+
+                <button
+                    class="remove"
+                    onclick="removeFromWatchlist(${anime.id}, event)"
+                >
+                    Remove
+                </button>
+
+            </div>
+        `;
+
+        card.addEventListener("click", function() {
+
+            window.location.href =
+                "anime.html?id=" + anime.id;
+
+        });
+
+        container.appendChild(card);
+
+    });
+}
+
+
+function removeFromWatchlist(id, event) {
+
+    event.stopPropagation();
+
+    let watchlist =
+        JSON.parse(
+            localStorage.getItem("anumbrix_watchlist") || "[]"
+        );
+
+    watchlist =
+        watchlist.filter(anime => anime.id !== id);
+
+    localStorage.setItem(
+        "anumbrix_watchlist",
+        JSON.stringify(watchlist)
+    );
+
+    loadWatchlist();
+}
+
+
+loadWatchlist();
+
+</script>
+
+</body>
+</html>
