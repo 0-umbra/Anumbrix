@@ -1,1 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>ANUMBRIX — Anime Discovery</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0b0b12;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background: #11111a;
+            border-bottom: 1px solid #242432;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .search {
+            background: #1b1b27;
+            border: 1px solid #303040;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            width: 150px;
+        }
+
+        .hero {
+            padding: 60px 20px;
+            min-height: 360px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background:
+                linear-gradient(to bottom, rgba(11,11,18,0.2), #0b0b12),
+                radial-gradient(circle at 70% 30%, #39205c, transparent 45%);
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            max-width: 600px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            color: #aaaabd;
+            max-width: 500px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .button {
+            display: inline-block;
+            width: fit-content;
+            padding: 13px 20px;
+            border-radius: 10px;
+            background: #7c4dff;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        section {
+            padding: 25px 20px;
+        }
+
+        section h2 {
+            margin-bottom: 18px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .card {
+            height: 230px;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #1b1b27, #12121b);
+            border: 1px solid #292938;
+            padding: 15px;
+            display: flex;
+            align-items: end;
+        }
+
+        .card h3 {
+            font-size: 16px;
+        }
+
+        .card p {
+            color: #9999aa;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #777787;
+            border-top: 1px solid #222230;
+            margin-top: 30px;
+        }
+
+        @media (min-width: 700px) {
+            .cards {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .hero {
+                padding-left: 60px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">ANUMBRIX</div>
+
+        <input
+            class="search"
+            type="text"
+            placeholder="Search anime..."
+        >
+    </header>
+
+
+    <main>
+
+        <section class="hero">
+            <h1>Discover Your Next Anime.</h1>
+
+            <p>
+                Explore anime, track what you watch,
+                discover new favorites and find legitimate
+                ways to watch.
+            </p>
+
+            <a href="#" class="button">Explore Anime</a>
+        </section>
+
+
+        <section>
+            <h2>🔥 Trending</h2>
+
+            <div class="cards">
+
+                <div class="card">
+                    <div>
+                        <h3>Anime Discovery</h3>
+                        <p>Coming soon</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h3>Popular Anime</h3>
+                        <p>Coming soon</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h3>New Releases</h3>
+                        <p>Coming soon</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h3>Recommended</h3>
+                        <p>Coming soon</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section>
+            <h2>🇮🇳 Anime in India</h2>
+
+            <p style="color:#aaaabd;">
+                Hindi • English • Tamil • Telugu • Japanese
+            </p>
+        </section>
+
+    </main>
+
+
+    <footer>
+        ANUMBRIX © 2026
+        <br><br>
+        Anime discovery & watch tracking
+    </footer>
+
+</body>
+                  </html>
