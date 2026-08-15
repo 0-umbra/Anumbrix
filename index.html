@@ -429,7 +429,11 @@ async function searchAnime(searchText) {
                 (anime.episodes || "?") +
                 " episodes</p>" +
                 "</div>";
+card.style.cursor = "pointer";
 
+card.addEventListener("click", function() {
+    window.location.href = "anime.html?id=" + anime.id;
+});
             searchCards.appendChild(card);
 
         });
