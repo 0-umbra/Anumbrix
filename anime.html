@@ -354,10 +354,48 @@ async function loadAnime(id) {
 
 function addToWatchlist(id) {
 
-    alert(
-        "Watchlist will be activated in the next step!"
+    const title =
+        document.querySelector("h1").textContent;
+
+    const image =
+        document.querySelector(".poster").src;
+
+    const scoreElement =
+        document.querySelector(".tag");
+
+    const score =
+        scoreElement
+            ? scoreElement.textContent.replace("⭐", "").trim()
+            : "N/A";
+
+    let watchlist =
+        JSON.parse(
+            localStorage.getItem("anumbrix_watchlist") || "[]"
+        );
+
+    const alreadyAdded =
+        watchlist.some(anime => anime.id === id);
+
+    if (alreadyAdded) {
+
+        alert("This anime is already in your watchlist!");
+
+        return;
+    }
+
+    watchlist.push({
+        id: id,
+        title: title,
+        image: image,
+        score: score
+    });
+
+    localStorage.setItem(
+        "anumbrix_watchlist",
+        JSON.stringify(watchlist)
     );
 
+    alert("❤️ Added to your watchlist!");
 }
 
 </script>
