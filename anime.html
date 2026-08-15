@@ -362,9 +362,9 @@ async function loadAnime(id) {
             ? Array.from(
                 { length: anime.episodes },
                 (_, index) => `
-                    <div class="episode">
-                        <span>Episode ${index + 1}</span>
-                    </div>
+                    `<div class="episode" onclick="openEpisode(${anime.id}, ${index + 1})">
+    <span>Episode ${index + 1}</span>
+</div>`
                 `
             ).join("")
             : "<p>No episode information available.</p>"
@@ -447,6 +447,10 @@ function addToWatchlist(id) {
 
     alert("❤️ Added to your watchlist!");
 }
+                function openEpisode(animeId, episodeNumber) {
+    window.location.href =
+        "watch.html?anime=" + animeId + "&episode=" + episodeNumber;
+                }
 
 </script>
 
