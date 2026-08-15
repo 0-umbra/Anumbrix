@@ -139,15 +139,20 @@
         <div class="logo">ANUMBRIX</div>
 
         <input
-            class="search"
-            type="text"
-            placeholder="Search anime..."
-        >
+    class="search"
+    id="searchInput"
+    type="text"
+    placeholder="Search anime..."
+>
     </header>
 
 
     <main>
 
+        <section id="searchResults" style="display:none;">
+    <h2>🔎 Search Results</h2>
+    <div class="cards" id="searchCards"></div>
+        </section>
         <section class="hero">
             <h1>Discover Your Next Anime.</h1>
 
@@ -303,5 +308,140 @@ async function loadTrendingAnime() {
 
 loadTrendingAnime();
 </script>
+    <script>
+
+const searchInput = document.getElementById("searchInput");
+const searchResults = document.getElementById("searchResults");
+const searchCards = document.getElementById("searchCards");
+
+let searchTimer;
+
+searchInput.addEventListener("input", function() {
+
+    clearTimeout(searchTimer);
+
+    const searchText = searchInput.value.trim();
+
+    if (searchText.length < 2) {
+        searchResults.style.display = "none";
+        return;
+    }
+
+    searchTimer = setTimeout(() => {
+        searchAnime(searchText);
+    }, 500);
+
+});
+
+
+async function searchAnime(searchText) {
+
+    searchResults.style.display = "block";
+
+    searchCards.innerHTML = "<p>Searching...</p>";
+
+    const query = `
+    query ($search: String) {
+
+        Page(perPage: 12) {
+
+            media(
+                search: $search,
+                type: ANIME
+            ) {
+
+                id
+
+                title {
+                    romaji
+                    english
+                }
+
+                coverImage {
+                    large
+                }
+
+                averageScore
+                episodes
+            }
+        }
+    }
+    `;
+
+    try {
+
+        const response = await fetch(
+            "https://graphql.anilist.co",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    query: query,
+                    variables: {
+                        search: searchText
+                    }
+                })
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Search failed");
+        }
+
+        const result = await response.json();
+
+        searchCards.innerHTML = "";
+
+        result.data.Page.media.forEach(anime => {
+
+            const card = document.createElement("div");
+
+            card.className = "card";
+
+            card.style.backgroundImage =
+                "linear-gradient(to top, rgba(0,0,0,.9), rgba(0,0,0,.1)), url('" +
+                anime.coverImage.large +
+                "')";
+
+            card.style.backgroundSize = "cover";
+            card.style.backgroundPosition = "center";
+
+            const title =
+                anime.title.english ||
+                anime.title.romaji;
+
+            card.innerHTML =
+                "<div>" +
+                "<h3>" + title + "</h3>" +
+                "<p>⭐ " +
+                (anime.averageScore || "N/A") +
+                " • " +
+                (anime.episodes || "?") +
+                " episodes</p>" +
+                "</div>";
+
+            searchCards.appendChild(card);
+
+        });
+
+        if (result.data.Page.media.length === 0) {
+            searchCards.innerHTML =
+                "<p>No anime found.</p>";
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        searchCards.innerHTML =
+            "<p>Search is temporarily unavailable.</p>";
+    }
+}
+
+    </script>
 </body>
 </html>    
