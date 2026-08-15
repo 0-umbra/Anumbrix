@@ -169,7 +169,7 @@
         <section>
             <h2>🔥 Trending</h2>
 
-            <div class="cards">
+            <div class="cards" id="trendingCards">
 
                 <div class="card">
                     <div>
@@ -222,7 +222,7 @@
 <script>
 async function loadTrendingAnime() {
 
-    const cards = document.querySelector(".cards");
+    const cards = document.getElementById("trendingCards");
 
     try {
 
