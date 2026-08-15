@@ -134,6 +134,32 @@
                 font-size: 28px;
             }
         }
+        .episodes-section {
+    margin-top: 30px;
+}
+
+.episodes-section h2 {
+    margin-bottom: 15px;
+}
+
+.episodes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.episode {
+    padding: 14px;
+    background: #171722;
+    border: 1px solid #292938;
+    border-radius: 8px;
+}
+
+@media (min-width: 700px) {
+    .episodes {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
     </style>
 </head>
 
@@ -325,7 +351,28 @@ async function loadAnime(id) {
                         `).join("")}
 
                     </div>
+<div class="episodes-section">
 
+    <h2>📺 Episodes</h2>
+
+    <div class="episodes">
+
+        ${
+            anime.episodes
+            ? Array.from(
+                { length: anime.episodes },
+                (_, index) => `
+                    <div class="episode">
+                        <span>Episode ${index + 1}</span>
+                    </div>
+                `
+            ).join("")
+            : "<p>No episode information available.</p>"
+        }
+
+    </div>
+
+</div>
                     <p style="margin-top:20px;color:#aaaabd;">
                         <strong style="color:white;">Studio:</strong>
                         ${studios}
