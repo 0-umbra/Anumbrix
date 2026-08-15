@@ -359,11 +359,11 @@ async function loadAnime(id) {
             ? Array.from(
                 { length: anime.episodes },
                 (_, index) => `
-                    `<div class="episode" onclick="openEpisode(${anime.id}, ${index + 1})">
-    <span>Episode ${index + 1}</span>
-</div>`
-                `
-            ).join("")
+    <div class="episode" onclick="openEpisode(${anime.id}, ${index + 1})">
+        <span>Episode ${index + 1}</span>
+    </div>
+`
+).join("")
             : "<p>No episode information available.</p>"
         }
 
