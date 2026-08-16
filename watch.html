@@ -322,21 +322,48 @@ if (anime.idMal) {
     }
 }
 
-// If Jikan doesn't have this episode yet,
-// show a graceful fallback instead of an error page.
+// Get detailed information for the selected episode
+if (episode && episode.mal_id) {
+    try {
+        const detailURL =
+            "https://api.jikan.moe/v4/anime/" +
+            anime.idMal +
+            "/episodes/" +
+            episodeNumber;
+
+        const detailResponse = await fetch(detailURL);
+
+        if (detailResponse.ok) {
+            const detailResult = await detailResponse.json();
+
+            if (detailResult.data) {
+                episode = {
+                    ...episode,
+                    ...detailResult.data
+                };
+            }
+        }
+    } catch (error) {
+        console.error("Episode detail request failed:", error);
+    }
+}
+
+// If Jikan doesn't have this episode,
+// show a graceful fallback.
 if (!episode) {
     episode = {
-    mal_id: null,
-    title: `Episode ${episodeNumber}`,
-    title_japanese: null,
-    title_romanji: null,
-    aired: null,
-    score: null,
-    filler: false,
-    recap: false,
-    synopsis: null,
-    url: null
-};
+        mal_id: null,
+        title: `Episode ${episodeNumber}`,
+        title_japanese: null,
+        title_romanji: null,
+        aired: null,
+        score: null,
+        filler: false,
+        recap: false,
+        synopsis: null,
+        url: null
+    };
+}
             }
 
         /*
