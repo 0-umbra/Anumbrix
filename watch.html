@@ -1,73 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Watch - ANUMBRIX</title>
+    <title>Episode — ANUMBRIX</title>
 
     <style>
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            margin: 0;
-            background: #09090f;
+            background: #0b0b12;
             color: white;
             font-family: Arial, sans-serif;
         }
 
         header {
-            padding: 25px 30px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            background: #11111a;
             border-bottom: 1px solid #242432;
         }
 
         .logo {
-            font-size: 30px;
+            font-size: 24px;
             font-weight: bold;
             letter-spacing: 2px;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1000px;
             margin: auto;
-            padding: 25px;
+            padding: 30px 20px;
         }
 
         .back {
-            color: #aaa;
+            display: inline-block;
+            margin-bottom: 25px;
+            color: #aaaabd;
             text-decoration: none;
+            font-size: 17px;
+        }
+
+        .back:hover {
+            color: white;
+        }
+
+        .episode-card {
+            background: #11111a;
+            border: 1px solid #292938;
+            border-radius: 14px;
+            padding: 25px;
+        }
+
+        .anime-header {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .poster {
+            width: 180px;
+            border-radius: 12px;
+        }
+
+        .anime-title {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .episode-number {
+            color: #aaaabd;
             font-size: 18px;
-        }
-
-        h1 {
-            margin-top: 30px;
-        }
-
-        .episode-info {
-            color: #aaa;
             margin-bottom: 20px;
         }
 
-        .player {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: #171722;
-            border: 1px solid #292938;
-            border-radius: 10px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            text-align: center;
-            padding: 20px;
+        .episode-title {
+            font-size: 25px;
+            margin-bottom: 10px;
         }
 
-        .message {
-            color: #aaa;
+        .japanese-title {
+            color: #aaaabd;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .tag {
+            background: #1b1b27;
+            border: 1px solid #303040;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: #ddd;
+        }
+
+        .section-title {
+            font-size: 20px;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+
+        .synopsis {
+            color: #aaaabd;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .loading {
+            color: #aaaabd;
             font-size: 18px;
+        }
+
+        .error {
+            color: #ff7777;
+            background: #241414;
+            border: 1px solid #552222;
+            padding: 20px;
+            border-radius: 10px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 700px) {
+
+            .anime-header {
+                flex-direction: column;
+            }
+
+            .poster {
+                width: 180px;
+            }
+
+            .anime-title {
+                font-size: 25px;
+            }
         }
     </style>
 </head>
@@ -80,36 +158,409 @@
 
 <main class="container">
 
-    <a href="index.html" class="back">← Back to ANUMBRIX</a>
+    <a href="javascript:history.back()" class="back">
+        ← Back
+    </a>
 
-    <h1 id="title">Loading...</h1>
-
-    <div class="episode-info" id="episodeInfo">
-        Loading episode...
-    </div>
-
-    <div class="player">
-        <div class="message">
-            Video player will appear here.
-            <br><br>
-            Episode streaming source has not been connected yet.
-        </div>
+    <div id="content">
+        <p class="loading">Loading episode information...</p>
     </div>
 
 </main>
 
+
 <script>
-    const params = new URLSearchParams(window.location.search);
 
-    const animeId = params.get("anime");
-    const episodeNumber = params.get("episode");
+const params = new URLSearchParams(window.location.search);
 
-    document.getElementById("title").textContent =
-        "Anime Episode";
+const animeId = params.get("anime");
+const episodeNumber = params.get("episode");
 
-    document.getElementById("episodeInfo").textContent =
-        "Anime ID: " + (animeId || "Unknown") +
-        " • Episode: " + (episodeNumber || "Unknown");
+const content = document.getElementById("content");
+
+
+if (!animeId || !episodeNumber) {
+
+    content.innerHTML = `
+        <div class="error">
+            Missing anime or episode information.
+        </div>
+    `;
+
+} else {
+
+    loadEpisode();
+
+}
+
+
+async function loadEpisode() {
+
+    try {
+
+        /*
+         * STEP 1
+         * Get anime information from AniList.
+         */
+
+        const animeQuery = `
+        query ($id: Int) {
+
+            Media(id: $id, type: ANIME) {
+
+                id
+
+                idMal
+
+                title {
+                    romaji
+                    english
+                    native
+                }
+
+                coverImage {
+                    extraLarge
+                    large
+                }
+
+                episodes
+
+            }
+
+        }
+        `;
+
+
+        const animeResponse = await fetch(
+            "https://graphql.anilist.co",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    query: animeQuery,
+                    variables: {
+                        id: Number(animeId)
+                    }
+                })
+            }
+        );
+
+
+        if (!animeResponse.ok) {
+            throw new Error("AniList request failed.");
+        }
+
+
+        const animeResult = await animeResponse.json();
+
+        const anime = animeResult.data.Media;
+
+
+        if (!anime) {
+            throw new Error("Anime was not found.");
+        }
+
+
+        const title =
+            anime.title.english ||
+            anime.title.romaji ||
+            anime.title.native ||
+            "Unknown Anime";
+
+
+        /*
+         * STEP 2
+         * Get the individual episode from Jikan.
+         */
+
+        if (!anime.idMal) {
+
+            showAnimeOnly(anime, title);
+
+            return;
+        }
+
+
+        const episodeURL =
+            "https://api.jikan.moe/v4/anime/" +
+            anime.idMal +
+            "/episodes/" +
+            episodeNumber;
+
+
+        const episodeResponse =
+            await fetch(episodeURL);
+
+
+        if (!episodeResponse.ok) {
+
+            throw new Error(
+                "Episode information could not be found."
+            );
+
+        }
+
+
+        const episodeResult =
+            await episodeResponse.json();
+
+
+        const episode =
+            episodeResult.data;
+
+
+        if (!episode) {
+
+            throw new Error(
+                "This episode does not have information available."
+            );
+
+        }
+
+
+        /*
+         * STEP 3
+         * Display everything.
+         */
+
+        const poster =
+            anime.coverImage.extraLarge ||
+            anime.coverImage.large ||
+            "";
+
+
+        content.innerHTML = `
+
+            <div class="episode-card">
+
+                <div class="anime-header">
+
+                    <img
+                        class="poster"
+                        src="${poster}"
+                        alt="${title}"
+                    >
+
+                    <div>
+
+                        <h1 class="anime-title">
+                            ${title}
+                        </h1>
+
+                        <p class="episode-number">
+                            Episode ${episodeNumber}
+                        </p>
+
+                        <h2 class="episode-title">
+                            ${episode.title || "Episode " + episodeNumber}
+                        </h2>
+
+                        ${
+                            episode.title_japanese
+                            ? `
+                                <p class="japanese-title">
+                                    ${episode.title_japanese}
+                                </p>
+                            `
+                            : ""
+                        }
+
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    ${
+                        episode.aired
+                        ? `
+                            <span class="tag">
+                                📅 ${formatDate(episode.aired)}
+                            </span>
+                        `
+                        : ""
+                    }
+
+
+                    ${
+                        episode.score
+                        ? `
+                            <span class="tag">
+                                ⭐ ${episode.score}
+                            </span>
+                        `
+                        : ""
+                    }
+
+
+                    ${
+                        episode.filler
+                        ? `
+                            <span class="tag">
+                                🔶 Filler
+                            </span>
+                        `
+                        : ""
+                    }
+
+
+                    ${
+                        episode.recap
+                        ? `
+                            <span class="tag">
+                                🔁 Recap
+                            </span>
+                        `
+                        : ""
+                    }
+
+                </div>
+
+
+                ${
+                    episode.synopsis
+                    ? `
+                        <h3 class="section-title">
+                            Episode Synopsis
+                        </h3>
+
+                        <p class="synopsis">
+                            ${episode.synopsis}
+                        </p>
+                    `
+                    : `
+                        <h3 class="section-title">
+                            Episode Synopsis
+                        </h3>
+
+                        <p class="synopsis">
+                            No synopsis available for this episode.
+                        </p>
+                    `
+                }
+
+            </div>
+
+        `;
+
+
+        document.title =
+            title +
+            " - Episode " +
+            episodeNumber +
+            " — ANUMBRIX";
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        content.innerHTML = `
+
+            <div class="error">
+
+                <strong>
+                    Unable to load episode information.
+                </strong>
+
+                <br><br>
+
+                ${error.message}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+function formatDate(dateString) {
+
+    if (!dateString) {
+        return "Unknown";
+    }
+
+    const date =
+        new Date(dateString);
+
+    if (isNaN(date)) {
+        return dateString;
+    }
+
+    return date.toLocaleDateString(
+        undefined,
+        {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        }
+    );
+
+}
+
+
+/*
+ * Fallback if AniList does not have
+ * a MyAnimeList ID.
+ */
+
+function showAnimeOnly(anime, title) {
+
+    const poster =
+        anime.coverImage.extraLarge ||
+        anime.coverImage.large ||
+        "";
+
+
+    content.innerHTML = `
+
+        <div class="episode-card">
+
+            <div class="anime-header">
+
+                <img
+                    class="poster"
+                    src="${poster}"
+                    alt="${title}"
+                >
+
+                <div>
+
+                    <h1 class="anime-title">
+                        ${title}
+                    </h1>
+
+                    <p class="episode-number">
+                        Episode ${episodeNumber}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <h3 class="section-title">
+                Episode Information
+            </h3>
+
+            <p class="synopsis">
+                Detailed information for this episode
+                is not available from the current data source.
+            </p>
+
+        </div>
+
+    `;
+
+}
+
 </script>
 
 </body>
