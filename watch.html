@@ -331,7 +331,14 @@ if (episode && episode.mal_id) {
             "/episodes/" +
             episodeNumber;
 
-        const detailResponse = await fetch(detailURL);
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 8000);
+
+        const detailResponse = await fetch(detailURL, {
+            signal: controller.signal
+        });
+
+        clearTimeout(timeout);
 
         if (detailResponse.ok) {
             const detailResult = await detailResponse.json();
