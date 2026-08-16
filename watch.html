@@ -281,51 +281,10 @@ async function loadEpisode() {
 
 
         let episode = null;
-let page = 1;
 
 if (anime.idMal) {
     try {
-        // Get Jikan's episode list
-        while (!episode && page <= 10) {
-            const episodeURL =
-                "https://api.jikan.moe/v4/anime/" +
-                anime.idMal +
-                "/episodes?page=" +
-                page;
-
-            const episodeResponse = await fetch(episodeURL);
-
-            if (!episodeResponse.ok) {
-                break;
-            }
-
-            const episodeResult = await episodeResponse.json();
-
-            if (episodeResult.data) {
-                episode = episodeResult.data.find(
-                    ep => ep.mal_id === Number(episodeNumber)
-                );
-            }
-
-            // Stop if there are no more pages
-            if (
-                !episodeResult.pagination ||
-                !episodeResult.pagination.has_next_page
-            ) {
-                break;
-            }
-
-            page++;
-        }
-    } catch (error) {
-        console.error("Jikan episode request failed:", error);
-    }
-}
-
-// Get detailed information for the selected episode
-if (episode && episode.mal_id) {
-    try {
-        const detailURL =
+        const episodeURL =
             "https://api.jikan.moe/v4/anime/" +
             anime.idMal +
             "/episodes/" +
@@ -334,26 +293,25 @@ if (episode && episode.mal_id) {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 8000);
 
-        const detailResponse = await fetch(detailURL, {
+        const episodeResponse = await fetch(episodeURL, {
             signal: controller.signal
         });
 
         clearTimeout(timeout);
 
-        if (detailResponse.ok) {
-            const detailResult = await detailResponse.json();
+        if (episodeResponse.ok) {
+            const episodeResult = await episodeResponse.json();
 
-            if (detailResult.data) {
-                episode = {
-                    ...episode,
-                    ...detailResult.data
-                };
+            if (episodeResult.data) {
+                episode = episodeResult.data;
             }
         }
     } catch (error) {
-        console.error("Episode detail request failed:", error);
+        console.error("Episode request failed:", error);
     }
 }
+
+
 
 // If Jikan doesn't have this episode,
 // show a graceful fallback.
