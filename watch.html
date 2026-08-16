@@ -326,15 +326,17 @@ if (anime.idMal) {
 // show a graceful fallback instead of an error page.
 if (!episode) {
     episode = {
-        mal_id: null,
-        title: `Episode ${episodeNumber}`,
-        title_japanese: null,
-        title_romanji: null,
-        aired: null,
-        filler: false,
-        recap: false,
-        url: null
-    };
+    mal_id: null,
+    title: `Episode ${episodeNumber}`,
+    title_japanese: null,
+    title_romanji: null,
+    aired: null,
+    score: null,
+    filler: false,
+    recap: false,
+    synopsis: null,
+    url: null
+};
             }
 
         /*
@@ -387,7 +389,20 @@ if (!episode) {
                     </div>
 
                 </div>
-
+${episode.synopsis
+    ? `
+        <div class="episode-summary">
+            <h3>Summary</h3>
+            <p>${episode.synopsis}</p>
+        </div>
+      `
+    : `
+        <div class="episode-summary">
+            <h3>Summary</h3>
+            <p>Episode summary is not available.</p>
+        </div>
+      `
+}
 
                 <div class="info">
 
