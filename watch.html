@@ -1,1 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Watch - ANUMBRIX</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #09090f;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            padding: 25px 30px;
+            border-bottom: 1px solid #242432;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 25px;
+        }
+
+        .back {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        h1 {
+            margin-top: 30px;
+        }
+
+        .episode-info {
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+
+        .player {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #171722;
+            border: 1px solid #292938;
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+            padding: 20px;
+        }
+
+        .message {
+            color: #aaa;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">ANUMBRIX</div>
+</header>
+
+<main class="container">
+
+    <a href="index.html" class="back">← Back to ANUMBRIX</a>
+
+    <h1 id="title">Loading...</h1>
+
+    <div class="episode-info" id="episodeInfo">
+        Loading episode...
+    </div>
+
+    <div class="player">
+        <div class="message">
+            Video player will appear here.
+            <br><br>
+            Episode streaming source has not been connected yet.
+        </div>
+    </div>
+
+</main>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+
+    const animeId = params.get("anime");
+    const episodeNumber = params.get("episode");
+
+    document.getElementById("title").textContent =
+        "Anime Episode";
+
+    document.getElementById("episodeInfo").textContent =
+        "Anime ID: " + (animeId || "Unknown") +
+        " • Episode: " + (episodeNumber || "Unknown");
+</script>
+
+</body>
+</html>
