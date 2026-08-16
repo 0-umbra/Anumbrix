@@ -280,42 +280,62 @@ async function loadEpisode() {
         
 
 
-        const episodeURL =
-            "https://api.jikan.moe/v4/anime/" +
-            anime.idMal +
-            "/episodes/" +
-            episodeNumber;
+        let episode = null;
+let page = 1;
 
+if (anime.idMal) {
+    try {
+        // Get Jikan's episode list
+        while (!episode && page <= 10) {
+            const episodeURL =
+                "https://api.jikan.moe/v4/anime/" +
+                anime.idMal +
+                "/episodes?page=" +
+                page;
 
-        const episodeResponse =
-            await fetch(episodeURL);
+            const episodeResponse = await fetch(episodeURL);
 
+            if (!episodeResponse.ok) {
+                break;
+            }
 
-        if (!episodeResponse.ok) {
+            const episodeResult = await episodeResponse.json();
 
-            throw new Error(
-                "Episode information could not be found."
-            );
+            if (episodeResult.data) {
+                episode = episodeResult.data.find(
+                    ep => ep.mal_id === Number(episodeNumber)
+                );
+            }
 
+            // Stop if there are no more pages
+            if (
+                !episodeResult.pagination ||
+                !episodeResult.pagination.has_next_page
+            ) {
+                break;
+            }
+
+            page++;
         }
+    } catch (error) {
+        console.error("Jikan episode request failed:", error);
+    }
+}
 
-
-        const episodeResult =
-            await episodeResponse.json();
-
-
-        const episode =
-            episodeResult.data;
-
-
-        if (!episode) {
-
-            throw new Error(
-                "This episode does not have information available."
-            );
-
-        }
-
+// If Jikan doesn't have this episode yet,
+// show a graceful fallback instead of an error page.
+if (!episode) {
+    episode = {
+        mal_id: null,
+        title: `Episode ${episodeNumber}`,
+        title_japanese: null,
+        title_romanji: null,
+        aired: null,
+        filler: false,
+        recap: false,
+        url: null
+    };
+            }
 
         /*
          * STEP 3
