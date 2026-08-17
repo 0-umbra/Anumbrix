@@ -13,6 +13,7 @@
         .ab-comment-avatar img{width:100%;height:100%;display:block;object-fit:cover;border-radius:50%}
         .ab-comment-avatar svg{width:23px;height:23px;display:block}
         .ab-avatar-fallback{width:100%;height:100%;display:grid;place-items:center}
+.ab-avatar-fallback[hidden]{display:none!important}
     `;
     document.head.appendChild(avatarStyle);
 
