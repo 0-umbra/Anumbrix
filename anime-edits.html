@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Anime Edits — AnumBrix</title>
+<meta name="description" content="Discover and watch anime edits on AnumBrix.">
+<link rel="icon" href="assets/anumbrix-logo.png">
+<script async src="https://cse.google.com/cse.js?cx=f34bea2552f6f428f"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{min-height:100vh;color:#fff;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 85% 4%,rgba(150,45,255,.38),transparent 30%),radial-gradient(circle at 5% 30%,rgba(92,0,170,.18),transparent 34%),linear-gradient(135deg,#07000d,#11001e 48%,#1b0630);overflow-x:hidden}
+.stars{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}.star{position:absolute;width:6px;height:6px;background:#fff;clip-path:polygon(50% 0%,61% 38%,100% 50%,61% 62%,50% 100%,39% 62%,0 50%,39% 38%);opacity:0;animation:fall 7s linear infinite}.star:nth-child(1){right:10%}.star:nth-child(2){right:25%;animation-delay:1.4s}.star:nth-child(3){right:43%;animation-delay:2.7s}.star:nth-child(4){right:61%;animation-delay:4.2s}.star:nth-child(5){right:78%;animation-delay:2s}.star:nth-child(6){right:92%;animation-delay:5s}
+@keyframes fall{0%{opacity:0;transform:translate(0,0) scale(.7)}10%{opacity:.9}75%{opacity:.8}100%{opacity:0;transform:translate(-250px,650px) scale(.7) rotate(180deg)}}
+header{position:sticky;top:0;z-index:20;padding:9px 14px;background:rgba(8,0,16,.88);border-bottom:1px solid rgba(180,70,255,.22);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.header-inner{max-width:1400px;margin:auto;display:flex;align-items:center;gap:10px}.menu,.profile{width:39px;height:39px;border-radius:11px;display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;cursor:pointer;border:1px solid rgba(190,75,255,.28);background:rgba(105,25,155,.18);font-size:18px}.logo{width:105px;max-height:48px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(175,45,255,.5))}.spacer{flex:1}.watchlist{padding:9px 13px;border-radius:10px;color:#fff;text-decoration:none;font-size:12px;font-weight:800;border:1px solid rgba(180,70,255,.3);background:rgba(93,21,135,.35)}
+main{position:relative;z-index:2;max-width:1150px;margin:auto;padding:48px 18px 75px}.hero{text-align:center;margin-bottom:30px}.eyebrow{font-size:12px;letter-spacing:4px;font-weight:900;color:#bd82ff;margin-bottom:12px}h1{font-size:clamp(40px,8vw,70px);line-height:1.02;letter-spacing:-2px;margin-bottom:15px;font-weight:900;background:linear-gradient(90deg,#fff,#dfaaff,#a93cff);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{max-width:720px;margin:auto;color:#c6b7d0;line-height:1.65;font-size:15px}
+.panel{margin-top:28px;padding:20px;border-radius:21px;background:linear-gradient(145deg,rgba(43,11,64,.9),rgba(12,2,21,.94));border:1px solid rgba(181,68,255,.3);box-shadow:0 20px 70px rgba(0,0,0,.35)}.panel-title{font-size:19px;font-weight:850;margin-bottom:14px;display:flex;gap:9px;align-items:center}.gcse-search{width:100%}
+.gsc-control-cse{font-family:inherit!important;padding:0!important;border:0!important;background:transparent!important}.gsc-search-box{margin-bottom:12px!important}.gsc-input-box{height:48px!important;border:1px solid rgba(181,69,255,.38)!important;border-radius:12px!important;background:rgba(5,0,10,.85)!important}input.gsc-input{height:44px!important;color:#fff!important;background:transparent!important;font-size:15px!important}input.gsc-input::placeholder{color:#8d7b99!important}.gsc-search-button-v2{height:46px!important;border:0!important;border-radius:11px!important;background:linear-gradient(135deg,#8d21ec,#bd39ff)!important}.gsc-result{padding:16px 4px!important;border-bottom:1px solid rgba(175,78,255,.13)!important;background:transparent!important}.gs-title,.gs-title *{color:#d08cff!important;text-decoration:none!important}.gs-title:hover,.gs-title:hover *{color:#fff!important}.gs-snippet{color:#b9a9c4!important;line-height:1.55!important}.gsc-url-top,.gsc-url-bottom{color:#7bd6a9!important}.gsc-result-info{color:#8e7b99!important}
+.player-panel{display:none;margin-top:22px}.player-panel.show{display:block}.player-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:11px}.player-title{font-size:16px;font-weight:850;color:#fff}.close-player{border:1px solid rgba(190,75,255,.3);background:rgba(110,30,160,.2);color:#fff;border-radius:9px;padding:8px 11px;cursor:pointer}.player-wrap{width:100%;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden;border:1px solid rgba(190,75,255,.3);box-shadow:0 18px 50px rgba(0,0,0,.45)}.player-wrap iframe{width:100%;height:100%;border:0;display:block}.player-note{font-size:12px;color:#8f7e99;margin-top:9px;line-height:1.5}
+.quick{margin-top:20px}.quick-label{font-size:12px;color:#a895b2;font-weight:750;margin-bottom:10px}.quick-list{display:flex;flex-wrap:wrap;gap:8px}.quick-btn{border:1px solid rgba(174,71,255,.25);background:rgba(88,20,122,.2);color:#d6b4ed;padding:8px 12px;border-radius:999px;font-size:12px;cursor:pointer}.quick-btn:hover{background:rgba(151,37,226,.35);color:#fff}
+.info{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}.card{padding:18px;border-radius:16px;border:1px solid rgba(175,70,255,.2);background:rgba(30,8,44,.62)}.card-icon{font-size:22px;margin-bottom:8px}.card h3{font-size:14px;margin-bottom:6px}.card p{font-size:12px;line-height:1.55;color:#9f8ba9}
+footer{position:relative;z-index:2;border-top:1px solid rgba(170,67,255,.16);padding:28px 18px;text-align:center;color:#776681;font-size:12px}footer strong{color:#bd82e8}
+@media(max-width:700px){main{padding:38px 13px 60px}header{padding:8px 11px}.logo{width:86px}.menu,.profile{width:35px;height:35px}.watchlist{display:none}.panel{padding:15px;border-radius:17px}.info{grid-template-columns:1fr}.player-wrap{aspect-ratio:16/10}.player-head{align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span></div>
+<header><div class="header-inner"><button class="menu" onclick="location.href='index.html'" aria-label="Home">☰</button><a href="index.html" aria-label="AnumBrix home"><img class="logo" src="assets/anumbrix-logo.png" alt="AnumBrix"></a><div class="spacer"></div><a class="watchlist" href="watchlist.html">❤️ Watchlist</a><a class="profile" href="index.html#auth" aria-label="Account">✉</a></div></header>
+<main>
+<section class="hero"><div class="eyebrow">ANUMBRIX COMMUNITY</div><h1>Anime Edits</h1><p>Search for an anime and discover edits, AMVs and fan-made video results. Select a YouTube result and AnumBrix will try to play it directly on this page.</p></section>
+<section class="panel"><div class="panel-title">🔎 Search Anime Edits</div><div class="gcse-search"></div><div class="quick"><div class="quick-label">Popular anime searches</div><div class="quick-list"><button class="quick-btn" onclick="quickSearch('Solo Leveling Jinwoo anime edit')">Jinwoo</button><button class="quick-btn" onclick="quickSearch('Naruto anime edit')">Naruto</button><button class="quick-btn" onclick="quickSearch('One Piece anime edit')">One Piece</button><button class="quick-btn" onclick="quickSearch('Jujutsu Kaisen anime edit')">Jujutsu Kaisen</button><button class="quick-btn" onclick="quickSearch('Demon Slayer anime edit')">Demon Slayer</button><button class="quick-btn" onclick="quickSearch('Re Zero anime edit')">Re:ZERO</button></div></div></section>
+<section id="playerPanel" class="panel player-panel"><div class="player-head"><div id="playerTitle" class="player-title">🎬 Anime Edit</div><button class="close-player" onclick="closePlayer()">✕ Close</button></div><div id="playerWrap" class="player-wrap"></div><div class="player-note">This is the official YouTube embedded player. The video remains hosted by YouTube; AnumBrix does not download or re-host the video.</div></section>
+<section class="info"><article class="card"><div class="card-icon">▶️</div><h3>Play on AnumBrix</h3><p>YouTube results that allow embedding can open in the player above.</p></article><article class="card"><div class="card-icon">🌐</div><h3>External content</h3><p>Edits remain hosted by their original provider instead of being uploaded to AnumBrix.</p></article><article class="card"><div class="card-icon">💜</div><h3>₹0 approach</h3><p>No video storage or paid video hosting is required for this feature.</p></article></section>
+</main>
+<footer><strong>ANUMBRIX</strong> — Anime Discovery & Community<br><br>Search results and videos are provided by third-party services. AnumBrix does not host the video files.</footer>
+<script>
+function getYouTubeId(url){
+ if(!url)return null;
+ try{
+  const u=new URL(url,location.href);
+  if(u.hostname==="youtu.be")return u.pathname.slice(1).split("/")[0]||null;
+  if(u.hostname==="youtube.com"||u.hostname==="www.youtube.com"||u.hostname.endsWith(".youtube.com")){
+   if(u.pathname==="/watch")return u.searchParams.get("v");
+   if(u.pathname.startsWith("/shorts/"))return u.pathname.split("/")[2]||null;
+   if(u.pathname.startsWith("/embed/"))return u.pathname.split("/")[2]||null;
+  }
+ }catch(e){}
+ return null;
+}
+function openPlayer(videoId,title){
+ if(!videoId)return;
+ const panel=document.getElementById("playerPanel"),wrap=document.getElementById("playerWrap");
+ document.getElementById("playerTitle").textContent="🎬 "+(title||"Anime Edit");
+ const iframe=document.createElement("iframe");
+ iframe.src="https://www.youtube.com/embed/"+encodeURIComponent(videoId)+"?playsinline=1&rel=0&origin="+encodeURIComponent(location.origin);
+ iframe.title=title||"Anime Edit";
+ iframe.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+ iframe.allowFullscreen=true;
+ iframe.referrerPolicy="strict-origin-when-cross-origin";
+ wrap.replaceChildren(iframe);panel.classList.add("show");
+ panel.scrollIntoView({behavior:"smooth",block:"center"});
+}
+function closePlayer(){document.getElementById("playerWrap").replaceChildren();document.getElementById("playerPanel").classList.remove("show")}
+function setupResultInterception(){
+ document.addEventListener("click",function(event){
+  const link=event.target.closest(".gsc-result a");
+  if(!link)return;
+  const videoId=getYouTubeId(link.href);
+  if(!videoId)return;
+  event.preventDefault();event.stopPropagation();
+  const result=link.closest(".gsc-result");
+  const titleEl=result&&result.querySelector(".gs-title");
+  openPlayer(videoId,titleEl?titleEl.textContent.trim():"Anime Edit");
+ },true);
+}
+function quickSearch(query){
+ const input=document.querySelector("input.gsc-input");
+ if(!input)return;
+ input.value=query;
+ const button=document.querySelector("button.gsc-search-button-v2");
+ if(button)button.click();
+}
+setupResultInterception();
+</script>
+</body>
+</html>
