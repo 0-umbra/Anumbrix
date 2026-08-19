@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ANUMBRIX — My Profile</title>
+<style>
+:root{
+  --bg:#09050f;--panel:#160d21;--panel2:#21112f;--purple:#8b3dff;
+  --light:#c084fc;--text:#fff;--muted:#b8a9c9;--border:#3a2350;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 50% -10%,#35105d 0,#110819 38%,#09050f 75%);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
+a{color:inherit;text-decoration:none}
+header{height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--border);background:rgba(9,5,15,.88);backdrop-filter:blur(12px);position:sticky;top:0;z-index:20}
+.logo{font-size:25px;font-weight:900;letter-spacing:.5px}.logo span{color:var(--light)}
+nav{display:flex;gap:10px;align-items:center}
+.navbtn{padding:10px 14px;border:1px solid var(--border);border-radius:10px;background:var(--panel);font-weight:700}
+.navbtn:hover{background:var(--panel2);border-color:var(--purple)}
+main{max-width:1050px;margin:28px auto;padding:0 16px}
+.hero{overflow:hidden;border:1px solid var(--border);border-radius:20px;background:linear-gradient(145deg,#21112f,#110819);box-shadow:0 18px 60px rgba(0,0,0,.35)}
+.banner{height:170px;background:linear-gradient(120deg,#401078,#7c2ce8 45%,#261039);position:relative}
+.banner:after{content:"✦  ✧  ✦  ✧  ✦";position:absolute;inset:35px 0 0;text-align:center;font-size:38px;letter-spacing:24px;opacity:.18}
+.profile{display:flex;gap:22px;align-items:flex-end;padding:0 25px 25px;margin-top:-58px;position:relative}
+.pfp{width:118px;height:118px;border-radius:50%;object-fit:cover;background:#241331;border:5px solid #110819;box-shadow:0 10px 30px #0008}
+.info{padding-bottom:5px}.name{font-size:30px;font-weight:900;margin:0 0 6px}.email{color:var(--muted);font-size:14px}.bio{color:#d9cbe5;margin:10px 0 0}
+.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;margin-top:18px}
+.card{border:1px solid var(--border);border-radius:16px;background:linear-gradient(145deg,rgba(33,17,47,.96),rgba(15,8,23,.96));padding:20px}
+h2{margin:0 0 15px;font-size:20px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{padding:15px;border:1px solid var(--border);border-radius:12px;background:#100817;text-align:center}.num{font-size:26px;font-weight:900;color:var(--light)}.label{font-size:12px;color:var(--muted);margin-top:5px}
+.status{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid #30203d}.status:last-child{border-bottom:0}.status b{font-size:14px}.count{color:var(--light);font-weight:900}
+.progress{height:10px;background:#0c0711;border-radius:20px;overflow:hidden;margin-top:12px}.bar{height:100%;width:0;background:linear-gradient(90deg,#6d28d9,#c084fc);border-radius:20px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{border:0;border-radius:10px;padding:11px 15px;background:linear-gradient(135deg,#7c2ce8,#a855f7);color:white;font-weight:800;cursor:pointer}.btn.secondary{background:#21112f;border:1px solid var(--border)}
+.empty{text-align:center;color:var(--muted);padding:20px}.error{color:#ff9bba}
+.edit-card{margin-top:18px}
+.form-grid{display:grid;gap:14px}
+.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px;font-weight:700}
+.field input,.field textarea{width:100%;border:1px solid var(--border);border-radius:11px;background:#0f0717;color:#fff;padding:12px 13px;font:inherit;outline:none}
+.field input:focus,.field textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(139,61,255,.14)}
+.field textarea{min-height:100px;resize:vertical}
+.edit-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.form-message{min-height:20px;margin-top:10px;font-size:13px;color:var(--muted)}
+.form-message.success{color:#9ff7c5}.form-message.error{color:#ff9bba}
+@media(max-width:750px){.grid{grid-template-columns:1fr}.profile{align-items:center;flex-direction:column;text-align:center;margin-top:-55px}.stats{grid-template-columns:repeat(2,1fr)}.banner{height:140px}nav .hide-mobile{display:none}}
+@media(max-width:750px){.grid{grid-template-columns:1fr}.profile{align-items:center;flex-direction:column;text-align:center;margin-top:-55px}.stats{grid-template-columns:repeat(2,1fr)}.banner{height:140px}nav .hide-mobile{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="index.html">ANUM<span>BRIX</span></a>
+  <nav>
+    <a class="navbtn hide-mobile" href="index.html">Explore Anime</a>
+    <a class="navbtn" href="watchlist.html">❤️ Watchlist</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="banner"></div>
+    <div class="profile">
+      <img id="pfp" class="pfp" alt="Profile picture">
+      <div class="info">
+        <h1 id="name" class="name">Loading profile...</h1>
+        <div id="email" class="email"></div>
+        <div id="bio" class="bio"></div>
+      </div>
+    </div>
+  </section>
+
+  <div id="editToggleWrap" class="actions" style="display:none;margin-top:18px">
+    <button id="editToggle" class="btn" type="button">✏️ Edit Profile</button>
+  </div>
+
+  <div id="loginNotice" class="card" style="display:none;margin-top:18px">
+    <h2>🔐 Login required</h2>
+    <p class="bio">Please log in to view your personal ANUMBRIX statistics and anime tracking data.</p>
+  </div>
+
+  <section id="editProfileCard" class="card edit-card" style="display:none">
+    <h2>✏️ Edit My Profile</h2>
+    <div class="form-grid">
+      <div class="field">
+        <label for="editUsername">Username</label>
+        <input id="editUsername" type="text" maxlength="40" autocomplete="nickname" placeholder="Your ANUMBRIX username">
+      </div>
+      <div class="field">
+        <label for="editBio">Bio</label>
+        <textarea id="editBio" maxlength="160" placeholder="Tell other anime fans about yourself"></textarea>
+      </div>
+    </div>
+    <div class="edit-actions">
+      <button id="saveProfile" class="btn" type="button">💾 Save Profile</button>
+      <button id="cancelProfile" class="btn secondary" type="button">Cancel</button>
+      <button id="changePfp" class="btn secondary" type="button">🖼️ Change Profile Picture</button>
+    </div>
+    <div id="profileMessage" class="form-message"></div>
+  </section>
+
+  <div id="profileContent" class="grid" style="display:none">
+    <section class="card">
+      <h2>📊 Anime Statistics</h2>
+      <div class="stats">
+        <div class="stat"><div id="total" class="num">0</div><div class="label">Total Anime</div></div>
+        <div class="stat"><div id="episodes" class="num">0</div><div class="label">Episodes</div></div>
+        <div class="stat"><div id="favorites" class="num">0</div><div class="label">Favorites</div></div>
+        <div class="stat"><div id="completed" class="num">0</div><div class="label">Completed</div></div>
+        <div class="stat"><div id="watching" class="num">0</div><div class="label">Watching</div></div>
+        <div class="stat"><div id="plan" class="num">0</div><div class="label">Plan to Watch</div></div>
+      </div>
+      <div style="margin-top:22px;color:var(--muted);font-size:13px">Overall episode progress</div>
+      <div class="progress"><div id="bar" class="bar"></div></div>
+      <div id="progressText" style="margin-top:8px;color:var(--muted);font-size:13px">0 watched episodes</div>
+    </section>
+
+    <section class="card">
+      <h2>📚 My Anime Status</h2>
+      <div class="status"><b>📺 Currently Watching</b><span id="sWatching" class="count">0</span></div>
+      <div class="status"><b>✅ Completed</b><span id="sCompleted" class="count">0</span></div>
+      <div class="status"><b>⏸️ On Hold</b><span id="sHold" class="count">0</span></div>
+      <div class="status"><b>❌ Dropped</b><span id="sDropped" class="count">0</span></div>
+      <div class="status"><b>📋 Plan to Watch</b><span id="sPlan" class="count">0</span></div>
+      <div class="actions">
+        <a class="btn" href="watchlist.html">Open My Watchlist</a>
+        <a class="btn secondary" href="index.html">Explore Anime</a>
+      </div>
+    </section>
+  </div>
+
+  <section id="errorBox" class="card error" style="display:none;margin-top:18px"></section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/supabase-config.js"></script>
+<script src="assets/auth-ui.js"></script>
+<script>
+(async function(){
+  const $=id=>document.getElementById(id);
+  const notice=$("loginNotice"), content=$("profileContent"), errorBox=$("errorBox");
+  const editToggleWrap=$("editToggleWrap"), editToggle=$("editToggle");
+  const editCard=$("editProfileCard"), saveProfile=$("saveProfile");
+  const cancelProfile=$("cancelProfile"), changePfp=$("changePfp");
+  const editUsername=$("editUsername"), editBio=$("editBio"), profileMessage=$("profileMessage");
+
+  let currentUser=null;
+  let currentProfile=null;
+
+  function esc(v){
+    return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+  }
+
+  function message(text,type=""){
+    profileMessage.textContent=text||"";
+    profileMessage.className="form-message"+(type?" "+type:"");
+  }
+
+  function renderAvatar(username,avatar){
+    if(avatar){
+      $("pfp").src=avatar;
+      $("pfp").removeAttribute("data-fallback");
+      return;
+    }
+    $("pfp").src="data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="100%" height="100%" fill="#241331"/><text x="50%" y="54%" text-anchor="middle" font-size="85" fill="#c084fc">${esc((username||"A").charAt(0).toUpperCase())}</text></svg>`
+    );
+    $("pfp").setAttribute("data-fallback","1");
+  }
+
+  function openEditor(){
+    editUsername.value=$("name").textContent || "";
+    editBio.value=$("bio").textContent || "";
+    message("");
+    editCard.style.display="block";
+    editToggleWrap.style.display="none";
+    editCard.scrollIntoView({behavior:"smooth",block:"center"});
+  }
+
+  function closeEditor(){
+    editCard.style.display="none";
+    editToggleWrap.style.display="flex";
+    message("");
+  }
+
+  try{
+    const client=window.anumBrixSupabase;
+    if(!client){
+      throw new Error("Supabase client is not available. Check assets/supabase-config.js.");
+    }
+
+    const {data:{session},error:userError}=await client.auth.getSession();
+    if(userError) throw userError;
+    currentUser=session?.user;
+
+    if(!currentUser){
+      notice.style.display="block";
+      return;
+    }
+
+    content.style.display="grid";
+    editToggleWrap.style.display="flex";
+
+    const {data:profile,error:profileError}=await client
+      .from("profiles")
+      .select("id,username,avatar_url,avatar")
+      .eq("id",currentUser.id)
+      .maybeSingle();
+
+    if(profileError) console.warn("Profile table could not be loaded; using account metadata:",profileError);
+    currentProfile=profile || {};
+
+    const username=currentProfile.username || currentUser.user_metadata?.username || currentUser.user_metadata?.name || currentUser.email?.split("@")[0] || "ANUMBRIX User";
+    const bio=currentUser.user_metadata?.bio || "Anime enthusiast";
+    const avatar=currentProfile.avatar_url || currentProfile.avatar || currentUser.user_metadata?.avatar_url || currentUser.user_metadata?.avatar || "";
+
+    $("name").textContent=username;
+    $("email").textContent=currentUser.email || "";
+    $("bio").textContent=bio;
+    renderAvatar(username,avatar);
+
+    const {data:tracking,error:trackingError}=await client
+      .from("anime_tracking")
+      .select("anime_id,status,current_episode,total_episodes,is_favorite")
+      .eq("user_id",currentUser.id);
+
+    if(trackingError) throw trackingError;
+
+    const list=tracking||[];
+    const countStatus=s=>list.filter(x=>x.status===s).length;
+    const favorites=list.filter(x=>x.is_favorite).length;
+    const watchedEpisodes=list.reduce((n,x)=>n+Math.max(0,Number(x.current_episode)||0),0);
+    const totalEpisodes=list.reduce((n,x)=>n+(Number(x.total_episodes)||0),0);
+
+    $("total").textContent=list.length;
+    $("episodes").textContent=watchedEpisodes;
+    $("favorites").textContent=favorites;
+    $("completed").textContent=countStatus("completed");
+    $("watching").textContent=countStatus("currently_watching");
+    $("plan").textContent=countStatus("plan_to_watch");
+
+    $("sWatching").textContent=countStatus("currently_watching");
+    $("sCompleted").textContent=countStatus("completed");
+    $("sHold").textContent=countStatus("on_hold");
+    $("sDropped").textContent=countStatus("dropped");
+    $("sPlan").textContent=countStatus("plan_to_watch");
+
+    const pct=totalEpisodes>0?Math.min(100,(watchedEpisodes/totalEpisodes)*100):0;
+    $("bar").style.width=pct.toFixed(1)+"%";
+    $("progressText").textContent=watchedEpisodes+" watched episodes"+(totalEpisodes?" / "+totalEpisodes+" total":"");
+
+    editToggle.addEventListener("click",openEditor);
+    cancelProfile.addEventListener("click",closeEditor);
+
+    changePfp.addEventListener("click",()=>{
+      const accountBtn=document.getElementById("abAccountBtn");
+      if(accountBtn){
+        accountBtn.click();
+        message("Use the account window to choose and upload your new profile picture.");
+      }else{
+        message("The account controls are not available on this page yet.","error");
+      }
+    });
+
+    saveProfile.addEventListener("click",async()=>{
+      const newUsername=editUsername.value.trim();
+      const newBio=editBio.value.trim();
+
+      if(!newUsername){
+        message("Please enter a username.","error");
+        return;
+      }
+      if(newUsername.length<2){
+        message("Username must be at least 2 characters.","error");
+        return;
+      }
+
+      saveProfile.disabled=true;
+      cancelProfile.disabled=true;
+      message("Saving your profile…");
+
+      try{
+        // Save username to the existing profiles table.
+        // Bio is stored in Supabase Auth metadata so this page does NOT
+        // depend on a `bio` column existing in the profiles table.
+        const {error:profileSaveError}=await client.from("profiles").upsert({
+          id:currentUser.id,
+          username:newUsername,
+          updated_at:new Date().toISOString()
+        },{onConflict:"id"});
+
+        if(profileSaveError) throw profileSaveError;
+
+        const {error:metaError}=await client.auth.updateUser({
+          data:{
+            ...(currentUser.user_metadata || {}),
+            username:newUsername,
+            name:newUsername,
+            bio:newBio || "Anime enthusiast"
+          }
+        });
+
+        if(metaError) throw metaError;
+
+        $("name").textContent=newUsername;
+        $("bio").textContent=newBio || "Anime enthusiast";
+        renderAvatar(newUsername,currentProfile?.avatar_url || currentProfile?.avatar || "");
+
+        currentProfile={...(currentProfile||{}),username:newUsername};
+        currentUser.user_metadata={
+          ...(currentUser.user_metadata || {}),
+          username:newUsername,
+          name:newUsername,
+          bio:newBio || "Anime enthusiast"
+        };
+        message("Profile saved successfully!","success");
+        setTimeout(closeEditor,900);
+      }catch(err){
+        console.error("ANUMBRIX profile save error:",err);
+        message(err?.message || "Could not save your profile.","error");
+      }finally{
+        saveProfile.disabled=false;
+        cancelProfile.disabled=false;
+      }
+    });
+
+  }catch(err){
+    console.error(err);
+    errorBox.style.display="block";
+    errorBox.innerHTML="<strong>Unable to load your profile.</strong><br><br>"+esc(err.message||err);
+  }
+})();
+</script>
+</body>
+</html>
