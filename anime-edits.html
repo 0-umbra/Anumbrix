@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#160022">
+<title>AnumBrix • Anime Edits</title>
+<style>
+:root{--bg:#08000d;--p:#14061d;--p2:#1d0a2b;--line:#48205f;--a:#a82cff;--a2:#d76cff;--text:#fff;--muted:#c0aec9}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#3b1260,#100018 45%,#060009 100%);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
+header{position:sticky;top:0;z-index:10;background:#08000df2;border-bottom:1px solid var(--line);padding:12px 15px;backdrop-filter:blur(10px)}
+.nav{max-width:1200px;margin:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.back{color:#ddd;text-decoration:none;font-size:21px}.logo{font-weight:900;font-size:21px;text-shadow:0 0 18px var(--a);white-space:nowrap}
+.search{display:flex;gap:8px;flex:1}.search input{width:100%;min-width:0;padding:13px;border-radius:12px;border:1px solid #54246c;background:#13091a;color:#fff;font-size:16px;outline:0}.search input:focus{border-color:var(--a);box-shadow:0 0 0 3px #a82cff22}
+button{border:0;border-radius:11px;padding:12px 15px;background:linear-gradient(135deg,#8e19ef,#c947ff);color:#fff;font-weight:800;cursor:pointer}button:disabled{opacity:.5}
+main{max-width:1200px;margin:auto;padding:28px 15px 60px}.eyebrow{color:#d079ff;letter-spacing:4px;font-size:12px;font-weight:900}h1{font-size:clamp(34px,7vw,62px);margin:8px 0}.hero p{color:var(--muted);max-width:760px;line-height:1.6}
+.chips{display:flex;gap:8px;overflow:auto;padding:12px 0 20px}.chip{white-space:nowrap;border:1px solid #4b2462;border-radius:999px;background:#190923;color:#decbea;padding:9px 13px}
+.status{min-height:24px;color:#cdbbd5;margin:8px 0 16px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{overflow:hidden;border-radius:16px;border:1px solid #3c1a51;background:linear-gradient(180deg,#1b0b28,#0e0613);box-shadow:0 8px 30px #0005}.thumb{position:relative;aspect-ratio:16/9;background:#07030a}.thumb img{width:100%;height:100%;object-fit:cover;display:block}.play{position:absolute;left:10px;bottom:10px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#a82cffdd}.cardbody{padding:12px}.title{font-weight:800;line-height:1.35;min-height:43px}.meta{margin-top:8px;color:#a99aae;font-size:12px}.card button{width:100%;margin-top:11px}
+.box{border:1px solid #482158;border-radius:16px;background:#13081b;padding:25px;text-align:center;color:#cdbed5}.box strong{display:block;color:#fff;font-size:20px;margin-bottom:8px}
+#playerWrap{display:none;margin:0 0 25px;border:1px solid #54256d;border-radius:18px;overflow:hidden;background:#09050d}.playerTop{display:flex;justify-content:space-between;gap:10px;padding:13px 15px;background:#16091f}.playerTitle{font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.close{background:#2a102f;padding:8px 12px}.player{aspect-ratio:16/9;background:#000}.player iframe{width:100%;height:100%;border:0}.note{padding:10px 15px;color:#9f90a8;font-size:12px;line-height:1.5}.pagination{display:flex;justify-content:center;gap:10px;margin-top:25px}footer{text-align:center;color:#82728b;font-size:12px;padding:20px 15px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:650px){.search{flex-basis:100%}.grid{grid-template-columns:repeat(2,1fr);gap:11px}.cardbody{padding:10px}.title{font-size:14px;min-height:38px}main{padding:20px 11px 50px}}@media(max-width:390px){.grid{grid-template-columns:1fr}}
+</style>
+<link rel="stylesheet" href="assets/anumbrix-3d.css">
+</head>
+<body><video id="ab3dBackground" aria-hidden="true" autoplay muted loop playsinline preload="none" poster="assets/anumbrix-3d-tunnel-poster.jpg" data-desktop-src="assets/anumbrix-3d-tunnel-720.mp4" data-mobile-src="assets/anumbrix-3d-tunnel-mobile.mp4"></video><div id="ab3dShade" aria-hidden="true"></div><div id="ab3dVignette" aria-hidden="true"></div><div id="ab3dHaze" aria-hidden="true"></div>
+<header><div class="nav"><a class="back" href="index.html">←</a><div class="logo">✦ AnumBrix</div>
+<form class="search" id="searchForm"><input id="query" autocomplete="off" placeholder="Search an anime or anime character…"><button id="searchBtn">Search</button></form></div></header>
+<main>
+<section class="hero"><div class="eyebrow">ANUMBRIX • ANIME ONLY</div><h1>Anime <span style="color:#ca65ff">Edits</span></h1><p>Search for an anime or anime character and discover edits from YouTube. Non-anime searches are blocked before video search.</p></section>
+<div class="chips" id="chips"></div>
+<section id="playerWrap"><div class="playerTop"><div class="playerTitle" id="playerTitle">Anime edit</div><button class="close" id="closePlayer">✕ Close</button></div><div class="player"><iframe id="player" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div><div class="note">The video is embedded from YouTube. AnumBrix does not download, copy, or re-host it.</div></section>
+<div class="status" id="status">Search for an anime or anime character.</div><section class="grid" id="results"></section>
+<div class="pagination"><button id="prev" disabled>← Previous</button><button id="next" disabled>Next →</button></div>
+</main><footer>Anime verification uses AniList. Edit videos are supplied by YouTube.</footer>
+<script>
+/* Replace only the text inside the quotes with your NEW YouTube Data API v3 key. Keep the quotes. */
+const YOUTUBE_API_KEY="AIzaSyClLYgVqrYjUtQ49XhTF48rbKtHVJgpfV8";
+const ANILIST_API="https://graphql.anilist.co", YOUTUBE_API="https://www.googleapis.com/youtube/v3/search";
+const PRESETS=["Solo Leveling","Jujutsu Kaisen","Demon Slayer","One Piece","Naruto","Bleach","Attack on Titan","Dragon Ball","Black Clover","One Punch Man","My Hero Academia","Chainsaw Man","Hunter x Hunter","Haikyuu","Blue Lock","Tokyo Revengers","Vinland Saga","Death Note","Re:ZERO","Mushoku Tensei","Frieren","Oshi no Ko","Spy x Family","Sailor Moon","JoJo","Berserk","Mob Psycho 100","Code Geass","Fairy Tail","Sword Art Online"];
+const REMOVE=new Set(["edit","edits","amv","mv","clips","clip","video","videos","short","shorts","status","4k","hd","full","best","editz","aesthetic","anime","character","characters","scene","scenes"]);
+let nextToken="",prevToken="",lastQuery="",target=null;
+const $=x=>document.getElementById(x);
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+const norm=s=>String(s||"").toLowerCase().replace(/[’']/g,"").replace(/[^a-z0-9\u00C0-\uFFFF\s-]/g," ").replace(/\s+/g," ").trim();
+const clean=s=>norm(s).split(" ").filter(x=>x&&!REMOVE.has(x)).join(" ").trim();
+
+function status(t,e=false){$("status").textContent=t;$("status").style.color=e?"#ff91ad":"#cdbbd5"}
+function gate(t,m){$("results").innerHTML='<div class="box" style="grid-column:1/-1"><strong>'+esc(t)+'</strong>'+esc(m)+'</div>'}
+function buildChips(){$("chips").innerHTML=PRESETS.map(x=>'<button class="chip" type="button" data-q="'+esc(x)+'">'+esc(x)+"</button>").join("");document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{$("query").value=b.dataset.q;search(b.dataset.q,true)})}
+async function ani(q){
+ const gql=`query($search:String){anime:Page(page:1,perPage:8){media(search:$search,type:ANIME){id title{romaji english native} synonyms}} characters:Page(page:1,perPage:8){characters(search:$search){id name{full native} media(perPage:6){nodes{id title{romaji english native}}}}}}`;
+ const r=await fetch(ANILIST_API,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({query:gql,variables:{search:q}})});
+ const d=await r.json();if(!r.ok||d.errors)throw Error(d.errors?.[0]?.message||"AniList verification failed");
+ return d.data;
+}
+function same(name,q){let a=norm(name),b=norm(q);return a===b||a.includes(b)||b.includes(a)}
+async function verify(raw){
+ const q=clean(raw);if(!q||q.length<2)return null;
+ const d=await ani(q), anime=d?.anime?.media||[], chars=d?.characters?.characters||[];
+ const a=anime.find(x=>[x.title?.romaji,x.title?.english,x.title?.native,...(x.synonyms||[])].filter(Boolean).some(n=>same(n,q)));
+ if(a){let n=a.title?.english||a.title?.romaji||a.title?.native||q;return{kind:"anime",name:n,search:n+" anime edit"}}
+ const c=chars.find(x=>same(x.name?.full,q)||same(x.name?.native,q));
+ if(c){let n=c.name?.full||c.name?.native||q;return{kind:"character",name:n,search:n+" anime edit"}}
+ return null;
+}
+function ytUrl(q,t=""){let p=new URLSearchParams({part:"snippet",q:q,type:"video",maxResults:"24",order:"relevance",videoEmbeddable:"true",videoSyndicated:"true",safeSearch:"strict",relevanceLanguage:"en",regionCode:"IN",key:YOUTUBE_API_KEY});if(t)p.set("pageToken",t);return YOUTUBE_API+"?"+p}
+async function yt(q,t=""){let r=await fetch(ytUrl(q,t)),d=await r.json();if(!r.ok||d.error)throw Error(d.error?.message||"YouTube search failed");return d}
+function filter(items,t){let words=norm(t.name).split(" ").filter(x=>x.length>2), signals=["anime","amv","edit","edits","otaku","manga","waifu","husbando","cosplay","animeedit"];return items.filter(i=>{let s=norm((i.snippet?.title||"")+" "+(i.snippet?.description||"")+" "+(i.snippet?.channelTitle||""));return words.some(w=>s.includes(w))&&signals.some(w=>s.includes(w))})}
+function render(items){if(!items.length){gate("No anime edits found","Try the anime title or character name.");return}$("results").innerHTML=items.map(i=>{let id=i.id?.videoId||"",title=esc(i.snippet?.title||"Anime edit"),ch=esc(i.snippet?.channelTitle||"YouTube creator"),img=id?"https://i.ytimg.com/vi/"+encodeURIComponent(id)+"/hqdefault.jpg":"";return'<article class="card"><div class="thumb"><img loading="lazy" src="'+img+'" alt="'+title+'"><div class="play">▶</div></div><div class="cardbody"><div class="title">'+title+'</div><div class="meta">'+ch+'</div><button class="watch" data-id="'+esc(id)+'" data-title="'+title+'">▶ Watch in AnumBrix</button></div></article>'}).join("");document.querySelectorAll(".watch").forEach(b=>b.onclick=()=>{ $("playerTitle").textContent=b.dataset.title;$("player").src="https://www.youtube.com/embed/"+encodeURIComponent(b.dataset.id)+"?autoplay=1&rel=0&modestbranding=1";$("playerWrap").style.display="block";$("playerWrap").scrollIntoView({behavior:"smooth"})})}
+async function search(raw,reset=false,t=""){
+ let q=clean(raw);if(!q){status("Enter an anime title or anime character.",true);gate("Anime edits only","Search for an anime or anime character.");return}
+ if(YOUTUBE_API_KEY.includes("PASTE_YOUR_")){status("Add your new YouTube API key first.",true);gate("API key required","Add your own YouTube Data API v3 key. Do not send the key to anyone.");return}
+ if(reset){nextToken="";prevToken="";lastQuery=q;target=null;$("next").disabled=$("prev").disabled=true}
+ $("searchBtn").disabled=true;status("Checking whether this is an anime or anime character…");gate("Checking…","ANUMBRIX is verifying your search before looking for edits.");
+ try{if(!target)target=await verify(raw);if(!target){status("That search is not recognized as an anime or anime character.",true);gate("🔒 Anime edits only","No anime or anime character matched. Try Naruto, Gojo, Sukuna, Sung Jinwoo, Demon Slayer, etc.");return}
+ status("Anime verified: "+target.name+". Finding edits…");let d=await yt(target.search,t),items=filter(d.items||[],target);render(items);nextToken=d.nextPageToken||"";prevToken=d.prevPageToken||"";$("next").disabled=!nextToken;$("prev").disabled=!prevToken;status(items.length+" anime edit"+(items.length===1?"":"s")+" found for “"+target.name+"”.")
+ }catch(e){console.error(e);status("Could not load anime edits.",true);gate("Something went wrong",e.message||"Check your API key and internet connection.")}finally{$("searchBtn").disabled=false}
+}
+$("searchForm").onsubmit=e=>{e.preventDefault();search($("query").value,true)}
+$("closePlayer").onclick=()=>{$("player").src="";$("playerWrap").style.display="none"}
+$("next").onclick=()=>{if(nextToken)search(lastQuery,false,nextToken)}
+$("prev").onclick=()=>{if(prevToken)search(lastQuery,false,prevToken)}
+buildChips();
+const uq=new URLSearchParams(location.search).get("q");if(uq){$("query").value=uq;search(uq,true)}
+</script>
+<script src="assets/anumbrix-3d.js"></script>
+</body>
+</html>
