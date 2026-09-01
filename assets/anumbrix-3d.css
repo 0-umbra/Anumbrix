@@ -1,0 +1,82 @@
+/* ANUMBRIX Cinematic 3D — lightweight edition
+   Designed for GitHub Pages, Android phones and low-power devices. */
+:root{
+  --ab-3d-purple:#a855f7;
+  --ab-3d-violet:#7c3aed;
+}
+html{background:#030106;}
+body{position:relative;isolation:isolate;overflow-x:hidden;background:#030106 !important;}
+
+/* Full-screen video. Keep GPU work low: the video itself supplies the motion. */
+#ab3dBackground{
+  position:fixed;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center center;
+  z-index:-20;pointer-events:none;background:#030106;
+  filter:brightness(.55) saturate(.88) contrast(1.04);
+  transform:translateZ(0);
+}
+#ab3dShade{
+  position:fixed;inset:0;z-index:-19;pointer-events:none;
+  background:linear-gradient(180deg,rgba(3,0,8,.48),rgba(8,1,17,.32) 45%,rgba(2,0,6,.72));
+}
+#ab3dVignette{
+  position:fixed;inset:0;z-index:-18;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 42%,rgba(0,0,0,.58) 100%);
+}
+#ab3dHaze{display:none;}
+
+header,.header,.navbar,.nav,.page,.container,main,section,footer,.modal,.menu,.drawer{
+  position:relative;z-index:1;
+}
+
+/* Avoid backdrop-filter on every card: it is one of the biggest mobile GPU costs. */
+.ab-glass-3d{background:rgba(13,4,25,.58);}
+
+/* Lightweight 3D button depth. No global will-change. */
+button,.btn,[role="button"],input[type="button"],input[type="submit"],input[type="reset"]{
+  position:relative;
+  transform:translateY(0) translateZ(0);
+  transition:transform .14s ease,box-shadow .14s ease,filter .14s ease,border-color .14s ease;
+  box-shadow:0 5px 0 rgba(38,10,67,.9),0 8px 18px rgba(0,0,0,.24);
+}
+button::after,.btn::after,[role="button"]::after,input[type="button"]::after,input[type="submit"]::after,input[type="reset"]::after{
+  content:"";position:absolute;inset:1px;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(120deg,rgba(255,255,255,.13),transparent 30%,transparent 72%,rgba(255,255,255,.04));
+  opacity:.6;
+}
+button:hover,.btn:hover,[role="button"]:hover,input[type="button"]:hover,input[type="submit"]:hover,input[type="reset"]:hover{
+  transform:translateY(-3px) translateZ(0);
+  filter:brightness(1.04);
+  box-shadow:0 8px 0 rgba(38,10,67,.9),0 13px 24px rgba(0,0,0,.28),0 0 20px rgba(168,85,247,.16);
+}
+button:active,.btn:active,[role="button"]:active,input[type="button"]:active,input[type="submit"]:active,input[type="reset"]:active{
+  transform:translateY(3px) translateZ(0);
+  box-shadow:0 2px 0 rgba(38,10,67,.9),0 4px 10px rgba(0,0,0,.24);
+}
+button:focus-visible,.btn:focus-visible,[role="button"]:focus-visible,input[type="button"]:focus-visible,input[type="submit"]:focus-visible,input[type="reset"]:focus-visible{
+  outline:2px solid rgba(216,180,254,.95);outline-offset:3px;
+}
+
+.card,.anime-card,.ab-card,.result-card,.edit-card,.panel{
+  box-shadow:0 12px 30px rgba(0,0,0,.30),0 0 0 1px rgba(168,85,247,.07);
+}
+
+@media (prefers-reduced-motion:reduce){
+  #ab3dBackground{display:none;}
+  #ab3dShade{background:#08020f;}
+  #ab3dVignette{display:none;}
+  button,.btn,[role="button"],input[type="button"],input[type="submit"],input[type="reset"]{transition:none!important;}
+}
+
+@media(max-width:700px){
+  #ab3dBackground{filter:brightness(.52) saturate(.82) contrast(1.02);}
+  #ab3dShade{background:linear-gradient(180deg,rgba(3,0,8,.52),rgba(8,1,17,.38) 45%,rgba(2,0,6,.76));}
+  #ab3dVignette{background:radial-gradient(ellipse at center,transparent 36%,rgba(0,0,0,.55) 100%);}
+  button,.btn,[role="button"],input[type="button"],input[type="submit"],input[type="reset"]{
+    box-shadow:0 4px 0 rgba(38,10,67,.9),0 7px 14px rgba(0,0,0,.24);
+  }
+  button:hover,.btn:hover,[role="button"]:hover,input[type="button"]:hover,input[type="submit"]:hover,input[type="reset"]:hover{
+    transform:translateY(-2px) translateZ(0);
+    box-shadow:0 6px 0 rgba(38,10,67,.9),0 10px 18px rgba(0,0,0,.25);
+  }
+}
